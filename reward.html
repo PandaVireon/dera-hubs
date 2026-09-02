@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rewards | VIREON</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+        
+        :root {
+            --vireon-cyan: #00f2fe;
+            --vireon-blue: #4facfe;
+            --vireon-dark: #060b19;
+            --vireon-card: #0d1527;
+            --vireon-red: #ff3b30;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: var(--vireon-dark);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, var(--vireon-cyan) 0%, var(--vireon-blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: linear-gradient(to bottom, rgba(6,11,25,0.95) 0%, rgba(6,11,25,0) 100%);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.1);
+        }
+
+        .topbar-logo {
+    height: 32px;         /* Change this number (e.g., 50px, 60px) to make it bigger or smaller */
+    width: auto;          /* Keeps your logo from stretching or looking distorted */
+    object-fit: contain;  /* Ensures it scales smoothly */
+}
+        .logo-container { display: flex; align-items: center; gap: 20px; text-decoration: none; }
+
+        .nav-link {
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-weight: 800;
+            margin-left: 20px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            color: var(--vireon-cyan);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 100px 15px 40px;
+        }
+
+        .reward-box {
+            width: 100%;
+            max-width: 480px;
+            background: var(--vireon-card);
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 32px;
+            padding: 35px 25px;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .plan-header {
+            font-size: 15px;
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: 800;
+            color: var(--vireon-cyan);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .price-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 5px;
+        }
+
+        .old-price { font-size: 20px; color: #737781; text-decoration: line-through; font-weight: 600; }
+        .new-price { font-size: 53px; font-weight: 900; color: #ffffff; margin-top: -10px; letter-spacing: -2px; }
+
+        .timer-badge {
+            font-size: 9px;
+            background: rgba(255, 59, 48, 0.1);
+            color: var(--vireon-red);
+            padding: 8px 18px;
+            border-radius: 50px;
+            font-weight: 900;
+            display: inline-block;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 59, 48, 0.4);
+            text-transform: uppercase;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+
+        .section-title {
+            color: var(--vireon-cyan);
+            font-weight: 800;
+            text-align: left;
+            margin: 30px 0 15px 0;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::after { content: ""; flex: 1; height: 1px; background: rgba(0, 242, 254, 0.1); }
+
+        .earn-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 16px;
+            margin: 8px 0;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            font-size: 13px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        .earn-item:hover { background: rgba(0, 242, 254, 0.03); border-color: rgba(0, 242, 254, 0.2); }
+
+        .earn-item i {
+            color: var(--vireon-cyan);
+            margin-right: 12px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .val-pill {
+            background: rgba(0, 242, 254, 0.1);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-weight: 800;
+            color: #ffffff;
+            font-size: 12px;
+        }
+        
+        .val-pill.bonus {
+            background: rgba(79, 172, 254, 0.2);
+            border: 1px solid rgba(79, 172, 254, 0.4);
+            color: var(--vireon-cyan);
+        }
+
+        .plan-button {
+            width: 100%;
+            background: linear-gradient(135deg, var(--vireon-cyan) 0%, var(--vireon-blue) 100%);
+            color: #060b19;
+            border: none;
+            border-radius: 16px;
+            padding: 20px;
+            font-weight: 800;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 20px rgba(0, 242, 254, 0.2);
+        }
+        .plan-button:active { transform: scale(0.97); }
+
+        .summary-box {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.1) 0%, rgba(79, 172, 254, 0.05) 100%);
+    border: 1px solid rgba(0, 242, 254, 0.4);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+    padding: 18px;
+    margin: 20px 0;
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.3s ease; /* Enables smooth transition */
+}
+
+/* Hover effect */
+.summary-box:hover {
+    background: linear-gradient(135deg, rgba(0, 242, 254, 0.15) 0%, rgba(79, 172, 254, 0.1) 100%);
+    border-color: rgba(0, 242, 254, 0.7);
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.3);
+    transform: translateY(-2px); /* Slight lift like the others */
+}
+
+       /* NEW LIQUID GLASS ACTIVITY FEED */
+        .activity-feed-container {
+            position: fixed; 
+            bottom: -80px; /* Hidden offscreen at the bottom initially */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2000; 
+            width: max-content; /* Shrinks and grows according to content */
+            max-width: 90vw;
+            padding: 10px 20px;
+            background: rgba(13, 21, 39, 0.6); /* Liquid glass base */
+            backdrop-filter: blur(15px) saturate(180%);
+            -webkit-backdrop-filter: blur(15px) saturate(180%);
+            border: 1px solid rgba(0, 242, 254, 0.25); 
+            border-radius: 40px; /* Perfectly rounded capsule */
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap; /* Forces everything strictly onto one single line */
+            transition: bottom 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.2); 
+        }
+
+        .show-activity { 
+            bottom: 30px; /* Slides smoothly up into view */
+        }
+
+        .activity-icon { 
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            color: var(--vireon-cyan); 
+            font-size: 13px;
+            flex-shrink: 0;
+        }
+
+        #activity-text { 
+            font-size: 12px; 
+            color: rgba(255, 255, 255, 0.9); 
+            font-weight: 500;
+            letter-spacing: -0.1px;
+        }
+        
+        /* Highlight Utility Classes */
+        .act-name { color: #ffffff; font-weight: 700; }
+        .act-green { color: #00ff87; font-weight: 800; text-shadow: 0 0 10px rgba(0, 255, 135, 0.2); }
+        .act-brand { color: var(--vireon-cyan); font-weight: 800; }
+
+        .footer { padding: 40px; text-align: center; color: #3e4a68; font-size: 10px; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.02); }
+    </style>
+</head>
+<body>
+
+<div class="topbar">
+        <a href="index.html" class="logo-container">
+            <img class="topbar-logo" src="logo.png" alt="vireon logo">
+        </a>
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="register.html" class="nav-link" style="color: var(--vireon-cyan)">Register</a>
+    </div>
+</div>
+
+<main>
+    <div class="reward-box">
+        <div class="plan-header">ONE TIME ONBOARDING</div>
+        <div class="price-container">
+            <div class="old-price">₦25,000</div>
+            <div class="new-price">₦14,500</div>
+        </div>
+        <div class="timer-badge"><i class="fas fa-bolt mr-2"></i> LIMITED SLOTS LEFT: <span id="countdown">20:00</span></div>
+
+        <div class="section-title">Instant Setup Benefits</div>
+        <div class="earn-item">
+            <span><i class="fas fa-gift"></i>Sign-Up Reward</span> 
+            <span class="val-pill bonus">₦25,000 (€12.5)</span>
+        </div>
+
+        <div class="section-title">Core Earning Streams</div>
+        <div class="earn-item"><span><i class="fas fa-poll"></i> Vireon Surveys</span> <span class="val-pill">£5/Survey</span></div>
+        <div class="earn-item"><span><i class="fas fa-brain"></i> Vireon IQ</span> <span class="val-pill">£5/Review</span></div>
+        <div class="earn-item"><span><i class="fas fa-phone-alt"></i> Vireon CallCash</span> <span class="val-pill">£2.38/15MINS</span></div>
+        <div class="earn-item"><span><i class="fas fa-search-dollar"></i> Google Monetization</span> <span class="val-pill">£5 Daily</span></div>
+        <div class="earn-item"><span><i class="fas fa-pinterest"></i> Pin-to-Profit Model</span> <span class="val-pill">£3/Upload</span></div>
+        <div class="earn-item"><span><i class="fas fa-music"></i> Vireon Snap Pro</span> <span class="val-pill">Up to $50 Rewards</span></div>
+        <div class="earn-item"><span><i class="fas fa-calendar-check"></i> Vireon log-in Reward</span> <span class="val-pill">£2 Daily</span></div>
+        <div class="earn-item"><span><i class="fas fa-headset"></i> Vireon Converse</span> <span class="val-pill">£2.5/Interaction</span></div>
+
+        <!-- Daily Earning Summary Card -->
+<div class="summary-box">
+    <div class="text-[13px] uppercase tracking-widest text-[#00f2fe] font-extrabold mb-1" style="font-family: 'Times New Roman', Times, serif;">
+        Daily Earning Summary:
+    </div>
+    <div class="font-black text-white tracking-tight" style="font-size: 25px;">
+        €20 <span class="text-base font-semibold text-slate-400">/ (₦40,000)</span>
+    </div>
+</div>
+
+        <div class="section-title">Sponsorship Privileges</div>
+        <div class="earn-item"><span><i class="fas fa-hand-holding-usd"></i> Vireon QuickLoan</span> <span class="val-pill">₦10M (4% Interest)</span></div>
+        <div class="earn-item"><span><i class="fas fa-mobile-alt"></i> Vireon EasyOwn</span> <span class="val-pill">Buy Now, Pay Later</span></div>
+
+        <button class="plan-button" onclick="window.location.href='register.html'">Activate Vireon Account</button>
+        <p class="text-[9px] text-slate-500 mt-4 uppercase font-bold tracking-widest italic">Instant Payouts & Global Project Pipelines Integrated</p>
+    </div>
+</main>
+
+<div class="footer">© 2026 VIREON — GLOBAL ADAPTIVE EARNINGS</div>
+
+<div id="activity-feed" class="activity-feed-container">
+    <div class="activity-icon">
+        <i id="act-icon" class="fas fa-star"></i>
+    </div>
+    <div id="activity-text">Authenticating Vireon Node...</div>
+</div>
+
+<script>
+    function startTimer(duration, display) {
+        let timer = duration, minutes, seconds;
+        setInterval(function () {
+            minutes = parseInt(timer / 30, 10);
+            seconds = parseInt(timer % 60, 10);
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            display.textContent = minutes + ":" + seconds;
+            if (--timer < 0) { timer = duration; }
+        }, 1000);
+    }
+
+   // ==========================================
+// ULTRA-BRIEF TWO-LINE FEED ENGINE
+// ==========================================
+
+const NAMES = [
+    "Dera", "Emmanuel", "Justin", "Rita", "Tobi", "Kofi", "Amara", "Thabo", "Musa", "Bella", 
+    "Chidi", "Kwame", "Zinhle", "Seyi", "Blessing", "Chioma", "Kwesi", "Efe", "Tunde", "Amina"
+];
+
+const LOCATIONS = [
+    { country: "Nigeria", currency: "₦" },
+    { country: "Ghana", currency: "₵" },
+    { country: "South Africa", currency: "R" },
+    { country: "Kenya", currency: "KSh" },
+    { country: "the UK", currency: "£" }
+];
+
+const COMPANIES = [
+    { name: "Netflix", color: "#E50914" },
+    { name: "Amazon", color: "#FF9900" },
+    { name: "Spotify", color: "#1DB954" },
+    { name: "YouTube", color: "#FF0000" },
+    { name: "TikTok", color: "#00F2FE" },
+    { name: "Google", color: "#4285F4" },
+    { name: "Apple", color: "#A2AAAD" }
+];
+
+const PEER_NAMES = ["Fred", "Sarah", "Alex", "Dave", "Sandra", "Collins"];
+
+function getRandomElement(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function generateRandomActivity() {
+    const name = getRandomElement(NAMES);
+    const loc = getRandomElement(LOCATIONS);
+    const brand = getRandomElement(COMPANIES);
+    const peer = getRandomElement(PEER_NAMES);
+    
+    const times = ["just now", "1m ago", "2m ago", "5m ago", "10m ago", "1h ago"];
+    const randomTime = getRandomElement(times);
+
+    const amounts = {
+        "₦": ["45,000", "25,000", "15,000", "14,000", "120,000", "47,000", "250,000"],
+        "₵": ["350", "200", "120", "65", "40", "100", "290", "900"],
+        "R": ["900", "500", "300", "150", "85"],
+        "KSh": ["6,000", "3,500", "1,800", "800", "450"],
+        "£": ["60", "35", "15", "8", "5", "30", "10", "603ws"]
+    };
+    const cash = getRandomElement(amounts[loc.currency]);
+
+    const timeHTML = `<br><span style="color: rgba(255,255,255,0.35); font-size: 10px; font-weight: 600; display: block; margin-top: 2px;">${randomTime}</span>`;
+
+    // NO GRAMMAR - MAXIMUM BREVITY
+    const TASKS = [
+        {
+            icon: "fas fa-user-check",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-green">Activated account successfully</span>.${timeHTML}`
+        },
+        {
+            icon: "fas fa-gift",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-green">Withdrew signup reward ${loc.currency === '₦' ? '25k naira' : loc.currency + '25k'}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-poll",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br>Surveyed <span style="color: ${brand.color}; font-weight: 800;">${brand.name}</span>: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-phone-alt",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br>Finished call with ${peer}: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-headset",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-brand">Vireon Converse</span> payout: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-brain",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-brand">Vireon IQ</span> payout: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-music",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-brand">Snap Pro</span> payout: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-search-dollar",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-brand">Google Monetized</span>: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-calendar-check",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br><span class="act-brand">Log-In Reward</span> claimed: <span class="act-green">+${loc.currency}${cash}</span>${timeHTML}`
+        },
+        {
+            icon: "fas fa-wallet",
+            text: `<span class="act-name">${name}</span> (${loc.country})<br>Processed withdrawal: <span class="act-green">${loc.currency}${cash}</span>${timeHTML}`
+        }
+    ];
+
+    return getRandomElement(TASKS);
+}
+
+function cycleActivityFeed() {
+    const activityElement = document.getElementById('activity-text');
+    const feedContainer = document.getElementById('activity-feed');
+    const actIcon = document.getElementById('act-icon');
+    
+    const currentActivity = generateRandomActivity();
+    
+    actIcon.className = currentActivity.icon;
+    activityElement.innerHTML = currentActivity.text;
+
+    feedContainer.classList.add('show-activity');
+    
+    setTimeout(() => {
+        feedContainer.classList.remove('show-activity');
+    }, 5000); 
+}
+
+window.onload = function () {
+    if (document.querySelector('#countdown')) {
+        startTimer(10 * 60, document.querySelector('#countdown'));
+    }
+    setTimeout(cycleActivityFeed, 1500);
+    setInterval(cycleActivityFeed, 9500); 
+};
+</script>
+</body>
+</html>

@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <title>Vireon Network | Share Reviews, Surveys & Feedback</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #00e1ff;
+            --sky-blue-glow: rgba(0, 225, 255, 0.4);
+            --btn-gradient: linear-gradient(135deg, #00F2FE, #4FACFE);
+            --dark-bg: rgba(10, 25, 41, 0.7);
+            --glass: rgba(255, 255, 255, 0.05);
+            --border: rgba(0, 225, 255, 0.15);
+            --container-width: 1100px;
+        }
+
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* --- ANIMATION SYSTEM --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #030a16;
+            background-image: 
+                linear-gradient(rgba(0, 225, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 225, 255, 0.02) 1px, transparent 1px),
+                radial-gradient(circle at top, #061f3d 0%, #020710 100%);
+            background-size: 40px 40px, 40px 40px, 100% 100%;
+            font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+            color: white;
+            line-height: 1.6;
+            scroll-behavior: smooth;
+        }
+
+        /* TOPBAR */
+        .topbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            background: linear-gradient(to bottom, rgba(3, 10, 22, 0.95) 0%, rgba(3, 10, 22, 0) 100%);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .topbar-logo {
+    height: 35px;         /* Change this number (e.g., 50px, 60px) to make it bigger or smaller */
+    width: auto;          /* Keeps your logo from stretching or looking distorted */
+    object-fit: contain;  /* Ensures it scales smoothly */
+}
+        .logo-container { display: flex; align-items: center; gap: 20px; text-decoration: none; }
+        .logo-text { font-size: 26px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; background: linear-gradient(90deg, #00F2FE, #fff, #00F2FE); background-size: 200% auto; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shine 3s linear infinite; font-family: sans-serif; }
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .topbar-controls { display: flex; align-items: center; gap: 15px; }
+
+        .control-btn {
+            width: 40px; height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white; border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; font-size: 18px; transition: 0.3s;
+            backdrop-filter: blur(5px);
+        }
+
+        /* BUTTON SYSTEM */
+        .vireon-btn {
+            position: relative;
+            padding: 12px 28px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            background: var(--btn-gradient);
+            box-shadow: 0 0 20px var(--sky-blue-glow);
+            transition: all 0.4s ease;
+            animation: pulse 2s infinite;
+        }
+        
+        .vireon-btn span {
+            display: inline-flex;
+            align-items: center;
+            gap: 10.2px;
+            color: #030a16;
+            font-weight: 1000;
+            font-size: 16px;
+            font-family: 'Times New Roman', Times, serif;
+            text-transform: uppercase;
+        }
+
+        .vireon-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 25px rgba(0, 242, 254, 0.7);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0.6); }
+            70% { transform: scale(1.03); box-shadow: 0 0 0 12px rgba(0, 242, 254, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(0, 242, 254, 0); }
+        }
+
+        .box-btn {
+    background: var(--btn-gradient);
+    color: #030a16;
+    padding: 14px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 800;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 17px;
+    text-transform: uppercase;
+    
+    /* --- CHANGED LINES TO CENTER IT --- */
+    display: block;                /* Changed from inline-block to block */
+    margin: auto auto 0 auto;      /* Automatically pushes left and right margins to center it */
+    
+    width: 85%;
+    box-sizing: border-box;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 242, 254, 0.2);
+    letter-spacing: 0.5px;
+}
+        .box-btn:hover { filter: brightness(1.1); transform: translateY(-2px); }
+
+        .unified-container { width: 90%; max-width: var(--container-width); margin-left: auto; margin-right: auto; box-sizing: border-box; }
+
+        .hero-image-style {
+            padding: 160px 5% 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .hero-badge {
+            background: rgba(0, 225, 255, 0.1);
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            padding: 6px 15px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-top: -50px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 15px rgba(0, 225, 255, 0.1);
+        }
+
+        .hero-structure-text {
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            color: #fff;
+            text-transform: uppercase;
+            margin-top: 10px;
+        }
+
+        .hero-main-title {
+            font-size: clamp(2.3rem, 8vw, 4.2rem);
+            line-height: 1.1;
+            font-weight: 900;
+            color: #fff;
+            margin: 0;
+            max-width: 750px;
+        }
+
+        .sliding-blue {
+            display: block;
+            background: linear-gradient(90deg, #00F2FE, #4FACFE, #00F2FE);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: blue-slide 3s linear infinite;
+            font-weight: 900;
+        }
+
+        @keyframes blue-slide { to { background-position: 200% center; } }
+
+        .hero-description {
+            color: #a0aec0;
+            font-size: 18px;
+            max-width: 580px;
+            margin: 10px 0 20px;
+        }
+
+        .live-track {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--primary-blue);
+        }
+
+        #typing-text {
+            color: #ffffff;
+            font-weight: 500;
+            margin-left: 5px;
+        }
+
+        #typing-text::after {
+            content: "|";
+            animation: blink 0.7s infinite;
+            margin-left: 2px;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .bright-header { text-align: center; padding: 40px 0 20px; }
+        .works-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-bottom: 60px; }
+
+        .work-box {
+            background: var(--dark-bg);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 24px;
+            padding: 24px;
+            text-align: center;
+            transition: 0.4s;
+            display: flex;
+            flex-direction: column;
+            min-height: 520px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .work-box:hover { 
+            border-color: var(--primary-blue); 
+            transform: translateY(-8px); 
+            box-shadow: 0 15px 35px rgba(0, 225, 255, 0.15);
+        }
+        
+        .work-box img { width: 100%; height: 320px; object-fit: cover; border-radius: 16px; margin-bottom: 20px; }
+        .work-box h3 { color: #fff; margin: 10px 0; font-weight: 800; font-family:'Times New Roman', Times, serif; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .work-box h3 i { color: var(--primary-blue); }
+        .work-box p { color: #a0aec0; font-size: 14.5px; margin-bottom: 25px; text-align: left; line-height: 1.6; flex-grow: 1; }
+        .work-box p strong { color: var(--primary-blue); }
+
+        .trust-section {
+            margin: 40px auto;
+            margin-top: -30px;
+            padding: 40px;
+            background: var(--dark-bg);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .stat-item { display: flex; align-items: center; gap: 20px; }
+        .stat-icon { width: 70px; height: 70px; background: rgba(0, 225, 255, 0.05); border: 1px solid var(--primary-blue); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 28px; color: var(--primary-blue); }
+        .live-badge { background: rgba(0, 225, 255, 0.1); border: 1px solid var(--primary-blue); color: var(--primary-blue); padding: 4px 10px; border-radius: 20px; font-size: 10px; font-weight: 900; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+        .pulse-dot { width: 8px; height: 8px; background: var(--primary-blue); border-radius: 50%; box-shadow: 0 0 10px var(--primary-blue); animation: pulse-active 1.5s infinite; }
+
+        @keyframes pulse-active { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.4); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+        .stat-text h2 { font-size: 36px; margin: 0; font-weight: 900; color: #fff; }
+
+        .faq-section { margin-bottom: 100px; }
+        details { background: var(--dark-bg); border: 1px solid var(--border); border-radius: 16px; margin-bottom: 15px; overflow: hidden; }
+        summary { padding: 22px; cursor: pointer; font-weight: 700; display: flex; justify-content: space-between; align-items: center; font-size: 16px; }
+        summary::after { content: "\f0fe"; font-family: "Font Awesome 6 Free"; font-weight: 900; color: var(--primary-blue); }
+        details[open] summary::after { content: "\f146"; }
+
+        .expandable-menu {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100vh;
+            background: radial-gradient(circle at top, #061f3d 0%, #020710 100%);
+            z-index: 1000; padding: 100px 5% 40px; box-sizing: border-box;
+            transform: translateY(-100%); opacity: 0;
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s;
+        }
+
+        .expandable-menu.is-active { transform: translateY(0); opacity: 1; }
+
+        .menu-link {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 22px 0; color: #fff; text-decoration: none;
+            font-size: 19px; font-weight: 700; cursor: pointer;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .menu-header { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; position: absolute; top: 0; left: 0; width: 100%; box-sizing: border-box; }
+        .menu-content { display: flex; flex-direction: column; }
+
+        .floating-join {
+            position: fixed; bottom: 25px; right: 27px; z-index: 100;
+            padding: 14px 30px; border-radius: 16px;
+            font-size: 16px; font-weight: 1000;
+            font-family: 'Times New Roman', Toiomes, serif;
+            background: var(--btn-gradient); color: #030a16; border: none;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.4);
+            cursor: pointer; transition: 0.3s;
+        }
+
+        .floating-join:hover { transform: scale(1.05); }
+
+        .main-footer { background: #020710; padding: 80px 0 40px; border-top: 1px solid var(--border); }
+        .footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr; gap: 60px; }
+        .footer-column ul { list-style: none; padding: 0; }
+        .footer-column ul li { margin-bottom: 15px; display: flex; align-items: center; gap: 12px; color: #a0aec0; }
+        .footer-column i { color: var(--primary-blue); }
+        .footer-column a { color: #a0aec0; text-decoration: none; transition: 0.3s; }
+        .footer-column a:hover { color: var(--primary-blue); }
+        .copyright { margin-top: 60px; text-align: center; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 30px; color: #4a5568; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+
+        @media (max-width: 768px) { .footer-grid { grid-template-columns: 1fr; gap: 40px; } .trust-section { flex-direction: column; text-align: center; } .work-box { min-height: auto; } }
+
+        .ambassador-scene { position: relative; height: 500px; width: 100%; perspective: 1000px; display: flex; align-items: center; justify-content: center; margin-top: -10px; }
+        .stack-container { width: 100%; height: 100%; position: relative; transform-style: preserve-3d; display: flex; align-items: center; justify-content: center; }
+        .glass-video-card { position: absolute; width: 280px; height: 430px; background: rgba(255, 255, 255, 0.04); backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); border: 1px solid var(--border); border-radius: 30px; padding: 10px; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; box-shadow: 0 25px 50px rgba(0,0,0,0.5); user-select: none; }
+        .glass-video-card video { width: 100%; height: 100%; object-fit: cover; border-radius: 22px; }
+        .card-front { transform: translate3d(0, 0, 0) scale(1); z-index: 3; opacity: 1; }
+        .card-right { transform: translate3d(40%, 0, -100px) scale(0.85); z-index: 2; opacity: 0.6; filter: blur(2px); }
+        .card-left  { transform: translate3d(-40%, 0, -100px) scale(0.85); z-index: 2; opacity: 0.6; filter: blur(2px); }
+        .card-back  { transform: translate3d(0, 0, -200px) scale(0.7); z-index: 1; opacity: 0; }
+
+        @media screen and (max-width: 480px) {
+            .glass-video-card { width: 240px; height: 360px; }
+            .ambassador-scene { height: 450px; }
+            .card-right { transform: translate3d(30%, 0, -100px) scale(0.8); }
+            .card-left  { transform: translate3d(-30%, 0, -100px) scale(0.8); }
+        }
+
+        .cac-switcher { position: relative; width: 100%; height: 200px; overflow: hidden; border-radius: 16px; margin-bottom: 20px; }
+        .cac-switcher img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1s ease-in-out; }
+        .cac-switcher img.hidden { opacity: 0; }   
+
+        /* Perfectly smooth, continuous side-to-side glide */
+.floating-join {
+    animation: smoothGlide 1s ease-in-out infinite alternate;
+}
+
+@keyframes smoothGlide {
+    0% {
+        transform: translateX(-6px); /* Starts on the left side */
+    }
+    100% {
+        transform: translateX(6px);  /* Glides completely over to the right side */
+    }
+}
+       
+    </style>
+</head>
+
+<body>
+
+    <div class="topbar">
+        <a href="index.html" class="logo-container">
+            <img class="topbar-logo" src="logo.png" alt="vireon logo">
+        </a>
+        
+        <div class="topbar-controls">
+            <button id="vireonBtn" class="vireon-btn" onclick="runStartLoading()">
+                <span>Register</span>
+            </button>
+            
+            <button class="control-btn" onclick="toggleMenu()">
+                <svg viewBox="0 0 24 24" fill="none" style="width:22px; height:22px;">
+                    <path d="M4 5h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M4 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                    <path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <nav class="expandable-menu" id="mobileMenu">
+        <div class="menu-header">
+            <a href="index.html" class="logo-container">
+            <img class="topbar-logo" src="logo.png" alt="vireon logo">
+        </a>
+            <button class="control-btn" onclick="toggleMenu()">
+                <i class="ph-bold ph-x"></i>
+            </button>
+        </div>
+
+        <div class="menu-content">
+            <a href="index.html" class="menu-link">Home</a>
+            <a href="About.html" class="menu-link">About Us</a>
+            <a href="privacy.html" class="menu-link">Privacy Policy</a>
+            <a href="#contact-footer" class="menu-link" onclick="toggleMenu()">Contact Support</a>
+        </div>
+    </nav>
+
+    <section class="hero-image-style reveal">
+        <div class="hero-badge">GLOBAL SURVEY NETWORK</div>
+        <div class="hero-structure-text">THE PREMIER EARNING LAYOUT</div>
+        
+        <h1 class="hero-main-title">
+            Participate in simple surveys. <br>Earn in 
+            <span class="sliding-blue">British Pounds (£)</span>
+        </h1>
+        
+        <p class="hero-description">
+            Vireon connects you directly to international clients. Share high-quality reviews, complete quick surveys, and provide consumer research feedback seamlessly.
+        </p>
+        
+        <div class="live-track">
+            <span>Live System Tracking:</span> <span id="typing-text"></span>
+        </div>
+        
+        <button class="vireon-btn" style="min-width: 220px; min-height: 55px; border-radius: 16px;" onclick="modernShrink(this)">
+            <span>Get Started Now</span>
+        </button>
+    </section>
+
+    <div id="features-section" class="unified-container bright-header reveal" style="text-align: left; margin-top: -50px;">
+        <h1 class="hero-main-title">
+            Our Ecosystem
+            <span class="sliding-blue">Representations:</span>
+        </h1>
+        <p class="hero-description">
+            Explore diverse, flexible pathways tailored to maximize your online time into scalable, verified daily returns.
+        </p>
+    </div>
+
+    <div class="unified-container">
+        <div class="works-grid">
+            
+            <div class="work-box reveal">
+                <img src="hero7.jpg" alt="Vireon Surveys" onerror="this.src='https://via.placeholder.com/400x220/00F2FE/000000?text=Vireon+Surveys'">
+                <h3><i class="fas fa-chart-bar"></i> VIREON SURVEYS</h3>
+                <p>Earn by sharing your precise opinion on trending commercial products and user services from top UK and global corporate brands like <strong>Amazon, eBay, Tesla, Netflix, and Unilever</strong>.<br><br>
+                • Complete quick research surveys and interactive business quizzes in minutes.<br>
+                • Every approved corporate feedback task pays up to <strong>£5 per submission</strong>.</p>
+                <button class="box-btn" onclick="window.location.href='reward.html'">Take Surveys</button>
+            </div>
+
+            <div class="work-box reveal">
+                <img src="hero5.jpg" alt="Vireon IQ" onerror="this.src='https://via.placeholder.com/400x220/00F2FE/000000?text=Vireon+IQ'">
+                <h3><i class="fas fa-brain"></i> VIREON IQ</h3>
+                <p>Put your analytical observational precision to work. Review selected digital materials and movie trailers, identify key narrative inaccuracies or formatting inconsistencies, and submit clear correction metrics.<br><br>
+                • Each submission is securely assessed for data accuracy.<br>
+                • Consistent contributions earn a baseline reward of <strong>£5 per verified submission</strong>.</p>
+                <button class="box-btn" onclick="window.location.href='reward.html'">Launch IQ Tasks</button>
+            </div>
+
+            <div class="work-box reveal">
+                <img src="hero4.jpg" alt="Vireon CallCash" onerror="this.src='https://via.placeholder.com/400x220/00F2FE/000000?text=Vireon+CallCash'">
+                <h3><i class="fas fa-phone-volume"></i> VIREON CALLCASH</h3>
+                <p>Every qualifying phone communication session you hold with verified international clients is an immediate channel for reliable income generation.<br><br>
+                • Earn up to <strong>₦5,000 per 15-minute call</strong> segment.<br>
+                • Structured rewards scale with session duration: 30 minutes translates to <strong>₦10,000 (£5)</strong>, while a 40-minute engagement guarantees <strong>₦13,333 (£6.35)</strong>.</p>
+                <button class="box-btn" onclick="window.location.href='reward.html'">Start CallCash</button>
+            </div>
+
+            <div class="work-box reveal">
+                <img src="hero6.jpg" alt="Vireon Converse" onerror="this.src='https://via.placeholder.com/400x220/00F2FE/000000?text=Vireon+Converse'">
+                <h3><i class="fas fa-comments"></i> VIREON CONVERSE</h3>
+                <p>Secure remote work engagements with global commercial firms needing operational support. Provide critical interaction, remote coordination, virtual business assistance, scheduling, and day-to-day administrative activities.<br><br>
+                • Perfect for individuals seeking continuous remote task allocations.<br>
+                • Earn a fixed scale baseline starting at <strong>£2.5 / ₦4,560 per completed assignment</strong>.</p>
+                <button class="box-btn" onclick="window.location.href='reward.html'">Converse Now</button>
+            </div>
+
+            <div class="work-box reveal">
+                <img src="hero3.jpg" alt="Vireon QuickLoan" onerror="this.src='https://via.placeholder.com/400x220/00F2FE/000000?text=Vireon+QuickLoan'">
+                <h3><i class="fas fa-wallet"></i> VIREON QUICKLOAN</h3>
+                <p>Need fast operational working capital to scale your activities? Vireon provides structured, restriction-free credit disbursements instantly without cumbersome collateral bottlenecks.<br><br>
+                • Seamless, highly intuitive infrastructure with expedited automated approvals.<br>
+                • Benefit from extremely competitive rates calculated as low as <strong>4% interest per month</strong>.</p>
+                <button class="box-btn" onclick="window.location.href='reward.html'">Apply Instantly</button>
+            </div>
+
+           
+<!-- CAC FEATURE BOX (FIXED: BUTTON GAP ELIMINATED) -->
+<!-- Changed display to block so elements stack naturally without stretching -->
+<div class="work-box reveal" style="padding: 10px; min-height: 800px; display: block;">
+    <div class="cac-switcher" id="cacSwitcher" style="position: relative; width: 100%; height: 390px; overflow: hidden; border-radius: 16px; margin-bottom: 20px;">
+        <img src="hero1.jpg" alt="CAC Registration Certificate" id="cacImg1" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1s ease-in-out;">
+        <img src="hero8.jpg" alt="Compliance Details" id="cacImg2" class="hidden" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity 1s ease-in-out;">
+    </div>
+    
+    <h3 style="font-family: 'Times New Roman', Times, serif; color: #fff; font-weight: 800; font-size: 1.3rem; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 15px;">
+        <i class="fas fa-check-circle" style="color: var(--primary-blue);"></i> VIREON DIGITAL HUB
+    </h3>
+    
+    <p style="color: #cad1db; font-size: 14.5px; margin-bottom: 25px; text-align: left; line-height: 1.6;">
+        Vireon is officially structured and recognized. The enterprise operates transparently under legal business registration with the Corporate Affairs Commission (CAC), bearing Business Name <strong>Registration No. 9625247.</strong><br></br>
+        <span style="opacity: 0.8;">• Fully compliant registry parameters ensuring a safe corporate environment.</span><br>
+        <span style="opacity: 0.8;">• Backed by trusted security protocols to bridge international opportunities seamlessly.</span>
+    </p>
+    
+    <!-- Added margin-top to separate it cleanly from the text without stretching -->
+    <button class="box-btn" style="background: transparent; border: 1px solid var(--primary-blue); color: var(--primary-blue); margin-top: 10px;" disabled>Verified Entity</button>
+</div>
+
+    </div>
+    </div>
+
+   <div class="unified-container trust-section reveal">
+    <div class="stat-item">
+        <div class="stat-icon"> <i class="fas fa-users"></i> </div>
+        <div class="stat-text">
+            <div class="live-badge"> <div class="pulse-dot"></div> ACTIVE </div>
+            <!-- ONLY CHANGE IS HERE: Added the span tag around the number -->
+            <h2><span id="liveCounter">212,909</span>+</h2>
+            <p>Global Participants</p>
+        </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="stat-text">
+                <div class="live-badge" style="border-color: #fff; color: #fff; background: rgba(255,255,255,0.1);"> COMPLIANT </div>
+                <h2>Secured</h2>
+                <p>SSL Encrypted</p>
+            </div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-icon"><i class="fas fa-sterling-sign"></i></div>
+            <div class="stat-text">
+                <div class="live-badge" style="border-color: #00F2FE; color: #00F2FE; background: rgba(0,242,254,0.1);"> EARNINGS </div>
+                <h2>GBP (£)</h2>
+                <p>International Valued Asset</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="faq-section" class="unified-container faq-section reveal">
+        <h2 style="text-align: center; font-weight: 900; text-transform: uppercase; margin-bottom: 30px; letter-spacing: 1px;">Got Questions?</h2>
+        <details>
+            <summary>How do I start earning on Vireon?</summary>
+            <div style="padding: 22px; color: #a0aec0;">Simply register your account using your name and email, navigate to your active dashboard workspace, and select from available surveys, reviews, or communication tasks.</div>
+        </details>
+        <details>
+            <summary>Are payments securely processed?</summary>
+            <div style="padding: 22px; color: #a0aec0;">Yes. All global transactions, deposits, and regional payout flows are handled through highly secure payment gateway channels including Paystack.</div>
+        </details>
+        <details>
+            <summary>Is there an official business registration?</summary>
+            <div style="padding: 22px; color: #a0aec0;">Vireon operates transparently under corporate validation as Vireon Digital Hub, officially authenticated via the Corporate Affairs Commission registration No. 9625247.</div>
+        </details>
+        <details>
+            <summary>How can i start getting tasks?</summary>
+            <div style="padding: 22px; color: #a0aec0;">You just need to complete your profile verification on your dashboard. Tasks are given out daily based on how accurately you complete assignments and what our international partners need.</div>
+        </details>
+        <details>
+            <summary>Is Vireon fully legal and secure?</summary>
+            <div style="padding: 22px; color: #a0aec0;">Yes, completely. Vireon operates transparently under official business registration guidelines. We follow strict data privacy laws to make sure both your account data and your earnings are 100% safe.</div>
+        </details>
+        <details>
+            <summary>How do the British Pounds (£) payouts work?</summary>
+            <div style="padding: 22px; color: #a0aec0;">All your earnings are tracked and saved in British Pounds (GBP). When you withdraw, the money is processed through secure financial networks and converted using standard bank exchange rates directly to your local account, which means you can withdraw to any bank and any currency of your choice</div>
+        </details>
+        <details>
+            <summary>Are there any hidden fees on my earnings?</summary>
+            <div style="padding: 22px; color: #a0aec0;">No hidden fees. Vireon runs a completely transparent platform. Normal network gateway or bank processing fees may apply only when you withdraw your money, and everything will be clearly listed on your dashboard.</div>
+        </details>
+    </div>
+
+    <footer class="main-footer reveal" id="contact-footer">
+        <div class="unified-container footer-grid">
+            <div class="footer-brand">
+                <img class="topbar-logo" src="logo.png" alt="vireon logo">
+        </a>
+                <p style="color: #a0aec0; font-size:14px;">A comprehensive international ecosystem built to channel meaningful online activities into secure, structured daily returns.</p>
+            </div>
+            <div class="footer-column">
+                <h3>Platform Navigation</h3>
+                <ul>
+                    <li><a href="About.html">About us</a></li>
+                    <li><a href="#features-section">Available Features</a></li>
+                    <li><a href="#faq-section">Help Center / FAQ</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Support Channels</h3>
+                <ul>
+                    <li><i class="fas fa-envelope"></i> <a href="mailto:vireondigitalhub@gmail.com?subject=Vireon%20Support%20Inquiry" class="hover:underline transition-all">
+    support@vireonofficial.com.ng
+                    </a></li>
+                    <li><i class="fas fa-building"></i> <span>45 Great Tower Street, Lndon, United Kingdom.</span></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="copyright">
+            &copy; 2026 Vireon. All rights reserved. Rewards are relative to individual dashboard task execution parameters.
+        </div>
+    </footer>
+
+    <button onclick="window.location.href='reward.html'" class="floating-join">
+        JOIN NOW
+    </button>
+    
+    <script>
+        const observerOptions = { threshold: 0.1, rootMargin: "0px 0px -50px 0px" };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+        }, observerOptions);
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        });
+
+        function toggleMenu() {
+            const menu = document.getElementById("mobileMenu");
+            menu.classList.toggle("is-active");
+            document.body.style.overflow = menu.classList.contains("is-active") ? "hidden" : "auto";
+        }
+
+        function runStartLoading() {
+            const btn = document.getElementById('vireonBtn');
+            btn.style.opacity = "0.6";
+            btn.style.transform = "scale(0.95)";
+            setTimeout(() => { window.location.href = 'reward.html'; }, 1500);
+        }
+
+        function modernShrink(btn) {
+            btn.style.transform = "scale(0.93)";
+            btn.style.filter = "brightness(0.9)";
+            setTimeout(() => { window.location.href = 'reward.html'; }, 1200);
+        }
+
+        const textElement = document.getElementById("typing-text");
+        const phrases = [
+    "Daily log-in rewards.",
+    "Real-time jobs and rewards.",
+    "Fast and secure payouts processing.",
+    "Global payment gateways fully operational.",
+    "Premium tasks allocating payouts.",
+    "Ecosystem milestone bonuses.",
+    "Instant reward allocations.",
+    "New remote micro-jobs available.",
+    "Secure gateway settlements.",
+    "Active participant bonuses.",
+    "Real-time wallet balances updated.",
+    "High-yield milestone tasks open."
+];
+        let phraseIndex = 0, charIndex = 0, isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            textElement.textContent = isDeleting ? currentPhrase.substring(0, charIndex - 1) : currentPhrase.substring(0, charIndex + 1);
+            charIndex = isDeleting ? charIndex - 1 : charIndex + 1;
+            let typeSpeed = isDeleting ? 40 : 80;
+
+            if (!isDeleting && charIndex === currentPhrase.length) { typeSpeed = 2500; isDeleting = true; }
+            else if (isDeleting && charIndex === 0) { isDeleting = false; phraseIndex = (phraseIndex + 1) % phrases.length; typeSpeed = 400; }
+            setTimeout(type, typeSpeed);
+        }
+        document.addEventListener("DOMContentLoaded", type);
+
+        let cards = Array.from(document.querySelectorAll('.glass-video-card'));
+        let currentIndex = 0, isHoveringActive = true, hoverDirection = 1, hoverInterval;
+
+        function updateStack() {
+            cards.forEach((card, i) => {
+                card.className = 'glass-video-card';
+                let pos = (i - currentIndex + cards.length) % cards.length;
+                if (pos === 0) card.classList.add('card-front');
+                else if (pos === 1) card.classList.add('card-right');
+                else if (pos === cards.length - 1) card.classList.add('card-left');
+                else card.classList.add('card-back');
+            });
+        }
+
+        function startHover() {
+            clearInterval(hoverInterval);
+            hoverInterval = setInterval(() => {
+                if (isHoveringActive) { currentIndex = (currentIndex + hoverDirection + cards.length) % cards.length; updateStack(); }
+            }, 3000);
+        }
+
+
+
+        function startCacSwitcher() {
+    const img1 = document.getElementById('cacImg1'), img2 = document.getElementById('cacImg2');
+    setInterval(() => {
+        if (img1.classList.contains('hidden')) { img1.classList.remove('hidden'); img2.classList.add('hidden'); }
+        else { img1.classList.add('hidden'); img2.classList.remove('hidden'); }
+    }, 4000);
+}
+
+// NEW: This function handles the live counting up
+function startLiveCounter() {
+    const counterElement = document.getElementById('liveCounter');
+    if (!counterElement) return;
+
+    const increments = [2, 4, 5]; // The numbers to add randomly
+
+    setInterval(() => {
+        // Grab the number and remove the comma so the computer can do math
+        let currentCount = parseInt(counterElement.innerText.replace(/,/g, ''), 10);
+        
+        // Pick 2, 4, or 5 randomly
+        const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
+        
+        // Add it to the total
+        let newCount = currentCount + randomIncrement;
+        
+        // Put the comma back and update the text on the screen
+        counterElement.innerText = newCount.toLocaleString();
+    }, 2000); // 6000ms = 6 seconds
+}
+
+// This runs everything the exact moment the page loads
+window.addEventListener('DOMContentLoaded', () => { 
+    startHover(); 
+    startCacSwitcher(); 
+    startLiveCounter(); // Starts the counter loop
+});
+    </script>
+</body>
+</html>
